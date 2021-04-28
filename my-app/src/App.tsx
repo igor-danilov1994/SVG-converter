@@ -2,14 +2,14 @@ import * as React from "react";
 import "./App.css";
 
 function App() {
-  const ref = React.useRef<any>();
-  const [svgHTML, setSvgHTML] = React.useState<any>();
+  const ref = React.useRef<HTMLInputElement | null>(null);
+  const fileContentsRef = React.useRef<HTMLDivElement | null>(null);
 
-  let handleClick = () => {
-    ref.current.click();
-  };
+  const [svgHTML, setSvgHTML] = React.useState("");
 
-  const ABC = ({ target }: { target: HTMLInputElement }) => {
+  const handleClick = () => ref.current !== null && ref.current.click();
+
+  const onUpload = ({ target }: { target: HTMLInputElement }) => {
     const { 0: file } = target.files || ({} as FileList);
 
     if (file) {
@@ -19,15 +19,11 @@ function App() {
 
       reader.onload = function (evt: ProgressEvent<FileReader>) {
         if (evt.target !== null) {
-          console.log(evt.target.result);
-
-          const filterContents = document.getElementById("fileContents");
+          const filterContents = fileContentsRef.current;
           if (
             filterContents !== null &&
             typeof evt.target.result === "string"
           ) {
-            filterContents.innerHTML = evt.target.result;
-
             setSvgHTML(evt.target.result);
           }
         }
@@ -38,22 +34,27 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <div id="fileContents" />
+    <>
+      <input
+        accept="image/svg"
+        ref={ref}
+        style={{ display: "none" }}
+        onChange={onUpload}
+        type="file"
+      />
 
-        <button onClick={handleClick}>Загрузить</button>
-        <input
-          accept="image/svg"
-          ref={ref}
-          style={{ display: "none" }}
-          onChange={ABC}
-          type="file"
-        />
-      </header>
+      <div className="App">
+        <header className="App-header">
+          <button onClick={handleClick}>Загрузить</button>
 
-      <div>{svgHTML}</div>
-    </div>
+          <div ref={fileContentsRef} />
+        </header>
+
+        <div dangerouslySetInnerHTML={{ __html: svgHTML }} />
+
+        <div>{svgHTML}</div>
+      </div>
+    </>
   );
 }
 
