@@ -44,7 +44,7 @@ function App() {
         }
     };
 
-    const changeStroke = (e: any) => {
+    const changeStroke = (e: React.FormEvent<HTMLInputElement>) => {
         const element = SvgCode.current![0]
 
         !element.attributes['stroke-width'] &&
@@ -55,8 +55,9 @@ function App() {
 
         element.attributes['stroke-width'].value = e.currentTarget.value
 
-        setSvgHTML(SvgCode.current![0].outerHTML)
+        setStroke(Number(e.currentTarget.value))
 
+        setSvgHTML(SvgCode.current![0].outerHTML)
     }
 
     return (
@@ -82,10 +83,8 @@ function App() {
             </div>
             <div>
                 <label htmlFor="">Change Stroke-width</label>
-                <input min={0} max={10} step={0.1} type="range" onChange={changeStroke}/>
-
-                {SvgCode.current && <a download href={SvgCode.current[0]}> Download</a>}
-
+                <input min={0} max={10} step={0.1} type="range"
+                       onChange={changeStroke} value={stroke}/>
             </div>
         </>
     )
