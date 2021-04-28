@@ -1,47 +1,60 @@
-import React, {useEffect, useRef, useState} from 'react';
-import './App.css';
+import * as React from "react";
+import "./App.css";
 
 function App() {
+  const ref = React.useRef<any>();
+  const [svgHTML, setSvgHTML] = React.useState<any>();
 
-    const ref = useRef<any>()
-    const svgElement = useRef<any>()
-    const [svgSrc, setSvg] = useState<any>()
-    const [svgEl, setSvgElem] = useState<any>()
+  let handleClick = () => {
+    ref.current.click();
+  };
 
-    useEffect(() =>{
-        let svgElem = svgElement.current
-        setSvgElem(svgElem)
-    },[svgSrc])
+  const ABC = ({ target }: { target: HTMLInputElement }) => {
+    const { 0: file } = target.files || ({} as FileList);
 
-    let handleClick = () => {
-        ref.current.click()
+    if (file) {
+      var reader = new FileReader();
+
+      reader.readAsText(file, "UTF-8");
+
+      reader.onload = function (evt: ProgressEvent<FileReader>) {
+        if (evt.target !== null) {
+          console.log(evt.target.result);
+
+          const filterContents = document.getElementById("fileContents");
+          if (
+            filterContents !== null &&
+            typeof evt.target.result === "string"
+          ) {
+            filterContents.innerHTML = evt.target.result;
+
+            setSvgHTML(evt.target.result);
+          }
+        }
+      };
+
+      reader.onerror = () => console.log("error reading file");
     }
+  };
 
-    const ABC = (e: any) => {
-        let file = ref.current.files[0]
-        let urlFile = URL.createObjectURL(file)
+  return (
+    <div className="App">
+      <header className="App-header">
+        <div id="fileContents" />
 
-        setSvg(urlFile)
-    }
+        <button onClick={handleClick}>Загрузить</button>
+        <input
+          accept="image/svg"
+          ref={ref}
+          style={{ display: "none" }}
+          onChange={ABC}
+          type="file"
+        />
+      </header>
 
-    function createMarkup() {
-        console.log(svgEl)
-        return {__html: `${svgEl}` };
-    }
-
-    return (
-        <div className="App">
-            <header className="App-header">
-                <button onClick={handleClick}>Загрузить</button>
-                <input accept="image/svg" ref={ref} style={{display: 'none'}}
-                       onChange={(e) => ABC(e)} type="file"/>
-            </header>
-
-            <object ref={svgElement} type="image/svg+xml" data={svgSrc}> </object>
-
-            <div dangerouslySetInnerHTML={createMarkup()} />
-        </div>
-    )
+      <div>{svgHTML}</div>
+    </div>
+  );
 }
 
 export default App;
