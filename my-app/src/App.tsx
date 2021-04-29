@@ -16,8 +16,7 @@ export function App() {
 
 
     React.useEffect(() => {
-        let svg = document.getElementsByTagName('svg')
-        SvgCode.current = svg
+        SvgCode.current = document.getElementsByTagName('svg')
     }, [])
 
     React.useEffect(() => {
@@ -36,7 +35,7 @@ export function App() {
         const {0: file} = target.files || ({} as FileList);
 
         if (file) {
-            var reader = new FileReader();
+            const reader = new FileReader();
 
             reader.readAsText(file, "UTF-8");
 
@@ -92,7 +91,7 @@ export function App() {
 
                     <input min={0} max={10} step={0.1} type="range"
                            value={el.attributes['stroke-width'].value}
-                           onChange={(e) => changeStroke(e, index )} />
+                           onChange={(e) => changeStroke(e, index)}/>
                 </div>
             )}
         </>
