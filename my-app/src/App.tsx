@@ -1,7 +1,8 @@
 import * as React from "react";
 import "./App.css";
+import {useState} from "react";
 
-function App() {
+export function App() {
     const ref = React.useRef<HTMLInputElement | null>(null);
     const fileContentsRef = React.useRef<HTMLDivElement | null>(null);
 
@@ -9,7 +10,7 @@ function App() {
 
     const [svgHTML, setSvgHTML] = React.useState("");
 
-    const [stroke, setStroke] = React.useState(0.1)
+    const [countPath, setCountPath] = useState<any[]>([])
 
     const handleClick = () => ref.current !== null && ref.current.click();
 
@@ -17,7 +18,19 @@ function App() {
     React.useEffect(() => {
         let svg = document.getElementsByTagName('svg')
         SvgCode.current = svg
-    })
+    }, [])
+
+    React.useEffect(() => {
+        if (svgHTML) {
+            const element = SvgCode.current![0]
+
+            let result = [].slice.call(element.children)
+
+            let currentPath: any = result.filter((element: any) => element.attributes['stroke-width'])
+
+            setCountPath(currentPath)
+        }
+    }, [svgHTML])
 
     const onUpload = ({target}: { target: HTMLInputElement }) => {
         const {0: file} = target.files || ({} as FileList);
@@ -44,18 +57,9 @@ function App() {
         }
     };
 
-    const changeStroke = (e: React.FormEvent<HTMLInputElement>) => {
-        const element = SvgCode.current![0]
+    const changeStroke = (e: React.FormEvent<HTMLInputElement>, index: number) => {
 
-        !element.attributes['stroke-width'] &&
-        element.setAttribute('stroke-width', '2')
-
-        !element.attributes['stroke'] &&
-        element.setAttribute('stroke', 'black')
-
-        element.attributes['stroke-width'].value = e.currentTarget.value
-
-        setStroke(Number(e.currentTarget.value))
+        countPath[index].attributes['stroke-width'].value = e.currentTarget.value
 
         setSvgHTML(SvgCode.current![0].outerHTML)
     }
@@ -81,13 +85,17 @@ function App() {
 
                 <div>{svgHTML}</div>
             </div>
-            <div>
-                <label htmlFor="">Change Stroke-width</label>
-                <input min={0} max={10} step={0.1} type="range"
-                       onChange={changeStroke} value={stroke}/>
-            </div>
+
+            {countPath.map((el: any, index: number) =>
+                <div key={index}>
+                    <label htmlFor="">Change Stroke-width</label>
+
+                    <input min={0} max={10} step={0.1} type="range"
+                           value={el.attributes['stroke-width'].value}
+                           onChange={(e) => changeStroke(e, index )} />
+                </div>
+            )}
         </>
     )
 }
 
-export default App;
