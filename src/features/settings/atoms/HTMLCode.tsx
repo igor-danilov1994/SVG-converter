@@ -1,8 +1,7 @@
-import React from 'react'
+import * as React from 'react';
 
 type HTMLCodeType = {
-    svgHTML: string
-}
+  svgHTML: string;
+};
 
-export const HTMLCode: React.FC<HTMLCodeType> = ({svgHTML}) => <div>{svgHTML}</div>
-
+export const HTMLCode: React.FC<HTMLCodeType> = ({ svgHTML }) => <div>{svgHTML}</div>;
