@@ -1,13 +1,16 @@
-import React from 'react'
+import React, {ChangeEvent} from 'react'
 
 type ChangeStrokeWidthType = {
-    changeParameter: (e: any, index: number) => void
+    changeParameter: (e: ChangeEvent, index: number) => void
     index: number
     value: string
     parameterName: string
 }
 
-export const ChangeParameter: React.FC<ChangeStrokeWidthType> = ({changeParameter, index, value, parameterName}) => {
+export const ChangeParameter: React.FC<ChangeStrokeWidthType> = ({changeParameter,
+                                                                     index,
+                                                                     value,
+                                                                     parameterName}) => {
     return (
         <>
             <label>{parameterName}</label>

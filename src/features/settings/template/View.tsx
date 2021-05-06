@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import { ChangeParameter } from '../atoms/ChangeParameter';
 import {UpLoader} from "../atoms/upLoader";
 import {HTMLCode} from "../atoms/HTMLCode";
@@ -6,11 +6,11 @@ import {ShowIcon} from "../atoms/ShowIcon";
 
 
 export const View = () => {
-    const svgCode = React.useRef<HTMLCollectionOf<any>>();
+    const svgCode = React.useRef <HTMLCollectionOf<SVGSVGElement>>();
 
     const [svgHTML, setSvgHTML] = React.useState('');
 
-    const [countPath, setCountPath] = React.useState<any[]>([]);
+    const [countPath, setCountPath] = React.useState<HTMLCollectionOf<SVGPathElement>[]>([]);
 
     React.useEffect(() => {
         svgCode.current = document.getElementsByTagName('svg');
@@ -20,12 +20,16 @@ export const View = () => {
         if (svgHTML) {
             const element = svgCode.current![0];
             let result = [].slice.call(element.children);
-            let currentPath: any = result.filter((element: any) => element.attributes['stroke-width']);
+
+
+            let currentPath = result.filter((element: any) => element.attributes['stroke-width']);
             setCountPath(currentPath);
         }
     }, [svgHTML]);
 
-    const changeStroke = (e: React.FormEvent<HTMLInputElement>, index: number) => {
+    const changeStroke = (e: ChangeEvent, index: number) => {
+
+        // @ts-ignore
         countPath[index].attributes['stroke-width'].value = e.currentTarget.value;
         setSvgHTML(svgCode.current![0].outerHTML);
     };
@@ -44,7 +48,7 @@ export const View = () => {
                 <HTMLCode svgHTML={svgHTML} />
             </div>
 
-            {countPath.map((el: any, index: number) => (
+            {countPath.map((el:any, index: number) => (
 
                 <ChangeParameter parameterName={'Change Stroke-width'}
                                  changeParameter={changeStroke}

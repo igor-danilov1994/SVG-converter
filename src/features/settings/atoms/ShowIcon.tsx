@@ -1,7 +1,7 @@
 import React from 'react';
 
 type ShowIconType = {
-  svgHTML: any;
+  svgHTML: string;
 };
 
 export const ShowIcon: React.FC<ShowIconType> = ({ svgHTML }) =>

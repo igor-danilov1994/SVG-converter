@@ -4,8 +4,5 @@ type HTMLCodeType = {
     svgHTML: string
 }
 
-export const HTMLCode: React.FC<HTMLCodeType> = ({svgHTML}) => {
-    return (
-        <div>{svgHTML}</div>
-    )
-}
+export const HTMLCode: React.FC<HTMLCodeType> = ({svgHTML}) => <div>{svgHTML}</div>
+
