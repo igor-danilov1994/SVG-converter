@@ -22,7 +22,7 @@ export const View = () => {
             let result = [].slice.call(element.children);
 
 
-            let currentPath = result.filter((element: any) => element.attributes['stroke-width']);
+            let currentPath = result.filter((element: SVGPathElement) => element.attributes['stroke-width']);
             setCountPath(currentPath);
         }
     }, [svgHTML]);
