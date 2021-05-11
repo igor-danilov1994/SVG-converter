@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+
 type onUploadPropsType = {
   getSvgHTML: (text: string) => void;
 };
