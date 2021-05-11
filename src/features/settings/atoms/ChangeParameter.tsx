@@ -1,16 +1,14 @@
 import * as React from 'react';
 
-type ChangeStrokeWidthType = {
+type ChangeParameterType = {
   changeParameter: (e: React.ChangeEvent<HTMLInputElement>, index: number) => void;
   index: number;
-  // value: string;
   parameterName: string;
 };
 
-export const ChangeParameter: React.FC<ChangeStrokeWidthType> = ({
+export const ChangeParameter: React.FC<ChangeParameterType> = ({
   changeParameter,
   index,
-  // value,
   parameterName,
 }) => {
   return (
