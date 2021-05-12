@@ -1,4 +1,7 @@
 import * as React from 'react';
+import '../../../style/style.css'
+import {Button, Upload} from "@ebs-integrator/react-ebs-ui";
+import {ChangeEvent} from "react";
 
 type onUploadPropsType = {
   getSvgHTML: (text: string) => void;
@@ -36,8 +39,7 @@ export const UpLoader: React.FC<onUploadPropsType> = ({ getSvgHTML }) => {
       <input accept="image/svg" ref={ref} style={{ display: 'none' }} onChange={onUpload} type="file" />
 
       <header className="App-header">
-        <button onClick={handleClick}>Add SVG icon</button>
-
+        <Button onClick={handleClick}>Add SVG icon</Button>
         <div ref={fileContentsRef} />
       </header>
     </>

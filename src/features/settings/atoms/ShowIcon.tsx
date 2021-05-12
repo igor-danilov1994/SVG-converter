@@ -5,5 +5,5 @@ type ShowIconType = {
 };
 
 export const ShowIcon: React.FC<ShowIconType> = ({ svgHTML }) => (
-  <div style={{ marginLeft: '20px' }} dangerouslySetInnerHTML={{ __html: svgHTML }} />
+  <div dangerouslySetInnerHTML={{ __html: svgHTML }} />
 );
