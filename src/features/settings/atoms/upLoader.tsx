@@ -8,13 +8,12 @@ type onUploadPropsType = {
 };
 
 export const UpLoader: React.FC<onUploadPropsType> = ({ getSvgHTML }) => {
-  /*const ref = React.useRef<HTMLInputElement | null>(null);*/
+  const ref = React.useRef<HTMLInputElement | null>(null);
   const fileContentsRef = React.useRef<HTMLDivElement | null>(null);
 
- /* const handleClick = () => ref.current !== null && ref.current.click();*/
+  const handleClick = () => ref.current !== null && ref.current.click();
 
   const onUpload = ({ target }: { target: HTMLInputElement }) => {
-    debugger
     if (target.files !== null) {
       const { 0: file } = target.files;
 
@@ -35,21 +34,12 @@ export const UpLoader: React.FC<onUploadPropsType> = ({ getSvgHTML }) => {
     }
   };
 
-  const ABC = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e)
-  }
-
   return (
     <>
-
-      <Upload type={'file'} accept={'image/svg'} onChange={ABC} >
-        <Button>Upload</Button>
-      </Upload>
-     {/* <input accept="image/svg" ref={ref} style={{ display: 'none' }} onChange={onUpload} type="file" />*/}
+      <input accept="image/svg" ref={ref} style={{ display: 'none' }} onChange={onUpload} type="file" />
 
       <header className="App-header">
-       {/* <Button onClick={handleClick}>Add SVG icon</Button>*/}
-
+        <Button onClick={handleClick}>Add SVG icon</Button>
         <div ref={fileContentsRef} />
       </header>
     </>

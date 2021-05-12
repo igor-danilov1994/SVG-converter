@@ -15,7 +15,7 @@ export const View = () => {
 
     const [svgHTML, setSvgHTML] = React.useState('');
     const [countPath, setCountPath] = React.useState<SVGPathElement[]>([]);
-    const [valueStrokeWidth, setValueStrokeWidth] = React.useState('')
+
 
     React.useEffect(() => {
         svgCode.current = document.getElementsByTagName('svg');
@@ -43,11 +43,25 @@ export const View = () => {
     }
 
     const ChangeWidthIcon = (e: ChangeEvent<HTMLInputElement>) => {
-        console.log(e.currentTarget.value)
-        /*const node = svgCode.current![0].attributes.getNamedItem('width')
-        node!.value = e.currentTarget.value;
+        const element  = svgCode.current![0]
 
-        setSvgHTML(svgCode.current![0].outerHTML);*/
+        Object.defineProperties(element.viewBox.baseVal, {
+            width: {
+                value: 42,
+                writable: true
+            },
+            height: {
+                value: 16,
+                writable: true
+            }
+        })
+
+        element.viewBox.baseVal.width = Number(e.currentTarget.value)
+        element.viewBox.baseVal.height = Number(e.currentTarget.value)
+
+        setSvgHTML(element.outerHTML);
+
+
     }
 
     const getSvgHTML = (text: string) => setSvgHTML(text);
